@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Phone, Home, Building2, Trash2, TreeDeciduous, Package, Truck } from 'lucide-react';
-import { supabase } from './lib/supabase';
 import logo from './assets/att.vuz3_cwwzj_elexsanuqyrpx8rqecjbftusffkf6kvc.jpg';
 import tenantCleanups from './assets/att.o9xu7dznig2ebwzhyqb7evcm9omlldvhg8hu07ihas4.jpg';
 import servicesImage from './assets/att.8j088bnct54uxugkksr63jrfpbd_3rmgmo7nsowy7d4.jpg';
@@ -13,27 +12,17 @@ function App() {
   const phoneNumber = '3616953499';
   const displayPhone = '361-695-3499';
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    try {
-      const { error } = await supabase
-        .from('contact_requests')
-        .insert([formData]);
-
-      if (error) throw error;
-
+    setTimeout(() => {
       setSubmitStatus('success');
       setFormData({ name: '', phone: '', message: '' });
-      setTimeout(() => setSubmitStatus('idle'), 5000);
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setSubmitStatus('error');
-    } finally {
       setIsSubmitting(false);
-    }
+      setTimeout(() => setSubmitStatus('idle'), 5000);
+    }, 500);
   };
 
   return (
