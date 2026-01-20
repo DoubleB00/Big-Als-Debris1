@@ -68,14 +68,11 @@ function App() {
               alt="Big Al's Debris Removal Logo"
               className="h-24 md:h-32 mb-4 rounded-lg shadow-lg"
             />
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-2 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-2 leading-tight text-green-500">
               Big Al's Debris Removal
             </h1>
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
-            <span className="text-green-500">Junk & Debris Removal</span>
-          </h2>
           <p className="text-xl md:text-2xl mb-2">Fast. Reliable. We haul it all.</p>
           <p className="text-green-500 font-semibold mb-8">Hablamos Español</p>
 
