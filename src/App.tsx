@@ -6,42 +6,19 @@ import servicesImage from './assets/att.8j088bnct54uxugkksr63jrfpbd_3rmgmo7nsowy
 
 function App() {
   const [formData, setFormData] = useState({ name: '', phone: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const phoneNumber = '3616953499';
   const displayPhone = '361-695-3499';
+  const smsNumber = '+13616953499';
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
 
-    try {
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-estimate-sms`;
+    const messageBody = `Hi, I'm ${formData.name}. My number is ${formData.phone}. I'm looking for a free estimate. Details: ${formData.message || 'No additional details'}`;
+    const encodedBody = encodeURIComponent(messageBody);
+    const smsLink = `sms:${smsNumber}?&body=${encodedBody}`;
 
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to send request');
-      }
-
-      setSubmitStatus('success');
-      setFormData({ name: '', phone: '', message: '' });
-      setTimeout(() => setSubmitStatus('idle'), 5000);
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+    window.location.href = smsLink;
   };
 
   return (
@@ -233,21 +210,16 @@ function App() {
               </div>
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-green-500 text-black font-bold px-8 py-4 rounded text-lg disabled:opacity-50"
+                className="w-full bg-green-500 text-black font-bold px-8 py-4 rounded text-lg"
               >
-                {isSubmitting ? 'Sending...' : 'Get Free Estimate'}
+                Get Free Estimate
               </button>
-              {submitStatus === 'success' && (
-                <p className="text-green-500 text-center font-semibold">
-                  Thanks! We'll call you soon.
-                </p>
-              )}
-              {submitStatus === 'error' && (
-                <p className="text-red-500 text-center font-semibold">
-                  Error. Please call us.
-                </p>
-              )}
+              <p className="text-gray-400 text-center text-sm">
+                Or text us at{' '}
+                <a href={`tel:${smsNumber}`} className="text-green-500 font-semibold">
+                  (361) 695-3499
+                </a>
+              </p>
             </form>
           </div>
         </div>
